@@ -16,10 +16,10 @@ class BaseContract {
     ) : UiState
 
     // View State that related to Most screens
-    abstract class BaseState<T: UiState>: UiState {
-        sealed class Idle: T
-        object Loading: UiState
-        object Success: UiState
+    sealed class BaseState: UiState {
+        object Idle: BaseState()
+        object Loading: BaseState()
+        object Success: BaseState()
 
     }
 

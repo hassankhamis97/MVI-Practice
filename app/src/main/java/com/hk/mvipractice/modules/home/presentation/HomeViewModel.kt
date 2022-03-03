@@ -1,9 +1,13 @@
 package com.hk.mvipractice.modules.home.presentation
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.hk.mvipractice.commons.presentation.BaseViewModel
 import com.hk.mvipractice.contracts.BaseContract
 import com.hk.mvipractice.contracts.HomeContract
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -12,8 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
 //    private val homeUseCase: HomeUseCase,
-//    private val homeUseCase2: HomeUseCase,
-        ): BaseViewModel<HomeContract.HomeState, HomeContract.HomeEvent, HomeContract.HomeEffect>() {
+        ): BaseViewModel<HomeContract.HomeEvent>() {
 
    init {
 //       Log.d("TestHilt", "ref of : $homeUseCase")
@@ -21,13 +24,24 @@ class HomeViewModel @Inject constructor(
 //       homeUseCase.toString()
    }
 
-    override fun handleEvent(event: HomeContract.HomeEvent) {
+    override fun handleCustomEvent(event: HomeContract.HomeEvent) {
+        Log.d("MVI_Practice", "Event: AddToCart")
+
+        viewModelScope.launch {
+            when(event) {
+                HomeContract.HomeEvent.AddToCart -> {
+                    setState { copy(state = BaseContract.BaseState.Loading) }
+                    delay(1000)
+                    setState { copy(state = HomeContract.HomeState.BindData) }
+
+                }
+            }
+        }
 
     }
 
-    override fun createInitialState(): HomeContract.HomeState {
+    override fun createInitialState(): BaseContract.State {
 //        return (HomeContract.HomeState.Super as BaseContract.BaseState).Idle
-        return HomeContract.HomeState.Idle
-
+        return BaseContract.State(BaseContract.BaseState.Idle)
     }
 }

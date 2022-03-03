@@ -6,12 +6,12 @@ package com.hk.mvipractice.contracts
 class HomeContract {
     // Events that user performed
     sealed class HomeEvent : BaseContract.BaseEvent() {
-        object OnOpenDetailsClicked : HomeEvent()
+        object AddToCart : HomeEvent()
     }
 
     sealed class HomeState: BaseContract.BaseState() {
 //            object Super: BaseContract.BaseState()
-//        object Idle : HomeState()
+        object BindData : HomeState()
 //        object Loading : BaseContract.BaseState()
 //        object Success : BaseContract.BaseState()
     }
