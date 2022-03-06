@@ -5,9 +5,12 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.hk.mvipractice.contracts.BaseContract
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 /**
  * Created by hassankhamis on 3,March,2022
@@ -31,27 +34,29 @@ abstract class BaseFragment<State: BaseContract.BaseState, Effect: BaseContract.
 
     open fun initObservers() {
         // repeat on life cycle
-        lifecycleScope.launchWhenCreated {
-            viewModel.state.collect {
-                when (it.state) {
-                    BaseContract.BaseState.Idle -> {
-                        Log.d("MVI_Practice", "State: Idle for ${this@BaseFragment}")
-                    }
-                    BaseContract.BaseState.ShimmerLoading -> {
-                        Log.d("MVI_Practice", "State: ShimmerLoading for ${this@BaseFragment}")
-                        // TODO Show Loading
-                    }
-                    BaseContract.BaseState.Loading -> {
-                        Log.d("MVI_Practice", "State: Loading for ${this@BaseFragment}")
-                        handleCustomLoading()
-                        // TODO Show Loading
-                    }
-                    BaseContract.BaseState.Success -> {
-                        Log.d("MVI_Practice", "State: Success for ${this@BaseFragment}")
-                    }
-                    else -> {
-                        (it.state as? State)?.let { state ->
-                            collectState(state)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.state.collect {
+                    when (it) {
+                        BaseContract.BaseState.Idle -> {
+                            Log.d("MVI_Practice", "State: Idle for ${this@BaseFragment}")
+                        }
+                        BaseContract.BaseState.ShimmerLoading -> {
+                            Log.d("MVI_Practice", "State: ShimmerLoading for ${this@BaseFragment}")
+                            // TODO Show Loading
+                        }
+                        BaseContract.BaseState.Loading -> {
+                            Log.d("MVI_Practice", "State: Loading for ${this@BaseFragment}")
+                            handleCustomLoading()
+                            // TODO Show Loading
+                        }
+                        BaseContract.BaseState.Success -> {
+                            Log.d("MVI_Practice", "State: Success for ${this@BaseFragment}")
+                        }
+                        else -> {
+                            (it as? State)?.let { state ->
+                                collectState(state)
+                            }
                         }
                     }
                 }

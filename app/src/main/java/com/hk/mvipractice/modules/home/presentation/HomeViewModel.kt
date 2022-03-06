@@ -28,8 +28,8 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    override fun createInitialState(): BaseContract.State {
+    override fun createInitialState(): BaseContract.BaseState {
 //        return (HomeContract.HomeState.Super as BaseContract.BaseState).Idle
-        return BaseContract.State(BaseContract.BaseState.Idle)
+        return BaseContract.BaseState.Idle
     }
 }

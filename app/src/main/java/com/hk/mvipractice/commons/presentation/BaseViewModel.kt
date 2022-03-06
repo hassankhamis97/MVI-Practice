@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
  */
 abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
 
-    private val initialState : BaseContract.State by lazy { createInitialState() }
+    private val initialState : BaseContract.BaseState by lazy { createInitialState() }
 
-    private val _state = MutableStateFlow<BaseContract.State>(initialState)
+    private val _state = MutableStateFlow<BaseContract.BaseState>(initialState)
     val state get() = _state.asStateFlow()
 
-    // Get Current State
-    val currentState: BaseContract.State
-        get() = state.value
+//    // Get Current State
+//    val currentState: BaseContract
+//        get() = state
 
     private val _event = MutableSharedFlow<BaseContract.BaseEvent>()
     val event get() = _event.asSharedFlow()
@@ -56,10 +56,9 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
      * Set new Ui State
      */
 
-    protected fun setState(reduce: BaseContract.State.() -> BaseContract.State) {
+    protected fun setState(builder: () -> BaseContract.BaseState) {
         viewModelScope.launch {
-            val newState = currentState.reduce()
-            _state.value = newState
+            _state.emit(builder())
         }
     }
 
@@ -83,5 +82,5 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
 
     abstract fun handleCustomEvent(event : Event)
 
-    abstract fun createInitialState(): BaseContract.State
+    abstract fun createInitialState(): BaseContract.BaseState
 }

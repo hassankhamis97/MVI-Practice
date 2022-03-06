@@ -22,9 +22,9 @@ class MasterViewModel @Inject constructor(): BaseViewModel<MasterContract.Master
         viewModelScope.launch {
             when(event) {
                 MasterContract.MasterEvent.AddToCart -> {
-                    setState { copy(state = BaseContract.BaseState.Loading) }
+                    setState { BaseContract.BaseState.Loading }
                     delay(1000)
-                    setState { copy(state = MasterContract.MasterState.BindData) }
+                    setState { MasterContract.MasterState.BindData }
                     setEffect {
                         MasterContract.MasterEffect.OpenDetails
                     }
@@ -34,8 +34,8 @@ class MasterViewModel @Inject constructor(): BaseViewModel<MasterContract.Master
 
     }
 
-    override fun createInitialState(): BaseContract.State {
+    override fun createInitialState(): BaseContract.BaseState {
 //        return (HomeContract.HomeState.Super as BaseContract.BaseState).Idle
-        return BaseContract.State(BaseContract.BaseState.Idle)
+        return BaseContract.BaseState.Idle
     }
 }

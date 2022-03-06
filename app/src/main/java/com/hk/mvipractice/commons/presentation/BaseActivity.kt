@@ -38,7 +38,7 @@ abstract class BaseActivity<VM: BaseViewModel<out BaseContract.BaseEvent>> : App
     open fun initObservers() {
         lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
-                when (it.state) {
+                when (it) {
                     BaseContract.BaseState.Idle -> {
                         Log.d("MVI_Practice", "State: Idle")
                     }

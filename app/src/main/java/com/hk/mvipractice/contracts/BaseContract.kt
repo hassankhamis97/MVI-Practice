@@ -12,9 +12,9 @@ class BaseContract {
 
     // try remove this
     // Ui View States
-    data class State(
-        val state: BaseState
-    ) : UiState
+//    data class State(
+//        val state: BaseState
+//    ) : UiState
 
     // View State that related to Most screens
     sealed class BaseState: UiState {
