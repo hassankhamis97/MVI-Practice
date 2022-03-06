@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by hassankhamis on 03,March,2022
  */
 @AndroidEntryPoint
-class MasterFragment : BaseFragment<MasterViewModel>(R.layout.fragment_master) {
+class MasterFragment : BaseFragment<MasterContract.MasterState, MasterContract.MasterEffect, MasterViewModel>(R.layout.fragment_master) {
     override val viewModel: MasterViewModel by viewModels<MasterViewModel>()
     lateinit var binding: FragmentMasterBinding
     override fun onCreateView(
@@ -49,23 +49,21 @@ class MasterFragment : BaseFragment<MasterViewModel>(R.layout.fragment_master) {
         super.initObservers()
     }
 
-    override fun collectState(state: BaseContract.BaseState) {
+    override fun collectState(state: MasterContract.MasterState) {
         when (state) {
             MasterContract.MasterState.BindData -> {
                 Log.d("MVI_Practice", "child State: BindData for ${this@MasterFragment}")
 //                        openDetailsScreen()
             }
-            else -> {}
         }
     }
 
-    override fun collectEffect(effect: BaseContract.BaseEffect) {
+    override fun collectEffect(effect: MasterContract.MasterEffect) {
         when (effect) {
             MasterContract.MasterEffect.OpenDetails -> {
                 Log.d("MVI_Practice", "child Effect: OpenDetails for ${this@MasterFragment}")
                 openDetailsScreen()
             }
-            else -> {}
         }
     }
 }

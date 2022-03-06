@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.hk.mvipractice.R
 import com.hk.mvipractice.commons.presentation.BaseFragment
 import com.hk.mvipractice.contracts.BaseContract
+import com.hk.mvipractice.contracts.DetailsContract
 import com.hk.mvipractice.contracts.MasterContract
 import com.hk.mvipractice.databinding.FragmentDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by hassankhamis on 03,March,2022
  */
 @AndroidEntryPoint
-class DetailsFragment : BaseFragment<DetailsViewModel>(R.layout.fragment_details) {
+class DetailsFragment : BaseFragment<DetailsContract.DetailsState, DetailsContract.DetailsEffect,DetailsViewModel>(R.layout.fragment_details) {
     override val viewModel: DetailsViewModel by viewModels()
     lateinit var binding: FragmentDetailsBinding
     override fun onCreateView(
@@ -46,16 +47,16 @@ class DetailsFragment : BaseFragment<DetailsViewModel>(R.layout.fragment_details
         super.initObservers()
     }
 
-    override fun collectState(state: BaseContract.BaseState) {
+    override fun collectState(state: DetailsContract.DetailsState) {
         when (state) {
-            MasterContract.MasterState.BindData -> {
+            DetailsContract.DetailsState.BindData -> {
                 Log.d("MVI_Practice", "child State: BindData for ${this@DetailsFragment}")
             }
             else -> {}
         }
     }
 
-    override fun collectEffect(effect: BaseContract.BaseEffect) {
+    override fun collectEffect(effect: DetailsContract.DetailsEffect) {
 //        TODO("Not yet implemented")
     }
 }

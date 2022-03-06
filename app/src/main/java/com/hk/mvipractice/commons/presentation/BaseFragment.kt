@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.*
 
 
 // send specific event or state for screen
-abstract class BaseFragment<VM: BaseViewModel<out BaseContract.BaseEvent>>(@LayoutRes contentLayoutId: Int) :
+abstract class BaseFragment<State: BaseContract.BaseState, Effect: BaseContract.BaseEffect, VM: BaseViewModel<out BaseContract.BaseEvent>>(@LayoutRes contentLayoutId: Int) :
     Fragment(contentLayoutId) {
 
     abstract val viewModel: VM
@@ -49,7 +49,11 @@ abstract class BaseFragment<VM: BaseViewModel<out BaseContract.BaseEvent>>(@Layo
                     BaseContract.BaseState.Success -> {
                         Log.d("MVI_Practice", "State: Success for ${this@BaseFragment}")
                     }
-                    else -> collectState(it.state)
+                    else -> {
+                        (it.state as? State)?.let { state ->
+                            collectState(state)
+                        }
+                    }
                 }
             }
         }
@@ -65,7 +69,9 @@ abstract class BaseFragment<VM: BaseViewModel<out BaseContract.BaseEvent>>(@Layo
                         Log.d("MVI_Practice", "Effect: SuccessDialog for ${this@BaseFragment}")
                     }
                     else -> {
-                        collectEffect(it)
+                        (it as? Effect)?.let { effect ->
+                            collectEffect(effect)
+                        }
                     }
                 }
             }
@@ -73,8 +79,8 @@ abstract class BaseFragment<VM: BaseViewModel<out BaseContract.BaseEvent>>(@Layo
 
     }
 
-    abstract fun collectState(state: BaseContract.BaseState)
-    abstract fun collectEffect(effect: BaseContract.BaseEffect)
+    abstract fun collectState(state: State)
+    abstract fun collectEffect(effect: Effect)
     open fun handleCustomLoading(){}
     open fun handleCustomError(){
         // show top dialog
