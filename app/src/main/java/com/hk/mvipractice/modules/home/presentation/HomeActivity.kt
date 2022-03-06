@@ -39,29 +39,6 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
         setContentView(bindings.root)
 //        Log.d("TestHilt", "ref of : $homeUseCase")
 //        Log.d("TestHilt", "ref of : $homeUseCase2")
-        setListeners()
     }
 
-    fun setListeners() {
-        bindings.apply {
-            addToCart.setOnClickListener {
-                viewModel.setEvent(HomeContract.HomeEvent.AddToCart)
-
-            }
-        }
-    }
-
-    override fun initObservers() {
-        super.initObservers()
-        lifecycleScope.launchWhenStarted {
-            viewModel.state.collect {
-                when (it.state) {
-                    HomeContract.HomeState.BindData -> {
-                        Log.d("MVI_Practice", "child State: BindData")
-                    }
-                    else -> {}
-                }
-            }
-        }
-    }
 }

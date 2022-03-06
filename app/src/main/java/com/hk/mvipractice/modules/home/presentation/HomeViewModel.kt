@@ -25,18 +25,6 @@ class HomeViewModel @Inject constructor(
    }
 
     override fun handleCustomEvent(event: HomeContract.HomeEvent) {
-        Log.d("MVI_Practice", "Event: AddToCart")
-
-        viewModelScope.launch {
-            when(event) {
-                HomeContract.HomeEvent.AddToCart -> {
-                    setState { copy(state = BaseContract.BaseState.Loading) }
-                    delay(1000)
-                    setState { copy(state = HomeContract.HomeState.BindData) }
-
-                }
-            }
-        }
 
     }
 

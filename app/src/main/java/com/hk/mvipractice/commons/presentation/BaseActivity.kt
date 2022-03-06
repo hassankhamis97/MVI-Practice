@@ -31,7 +31,6 @@ abstract class BaseActivity<VM: BaseViewModel<out BaseContract.BaseEvent>> : App
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
         initObservers()
 //        if (::viewModel.isInitialized.not()) initializeViewModel()
     }

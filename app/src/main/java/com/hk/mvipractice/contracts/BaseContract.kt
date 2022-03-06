@@ -10,6 +10,7 @@ class BaseContract {
         object OnRetryDataClicked : BaseEvent()
     }
 
+    // try remove this
     // Ui View States
     data class State(
         val state: BaseState
@@ -18,8 +19,10 @@ class BaseContract {
     // View State that related to Most screens
     sealed class BaseState: UiState {
         object Idle: BaseState()
+        object ShimmerLoading: BaseState()
         object Loading: BaseState()
         object Success: BaseState()
+        object Error: BaseState()
 
     }
 
