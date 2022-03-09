@@ -43,10 +43,6 @@ class DetailsFragment : BaseFragment<DetailsContract.DetailsState, DetailsContra
         }
     }
 
-    override fun initObservers() {
-        super.initObservers()
-    }
-
     override fun collectState(state: DetailsContract.DetailsState) {
         when (state) {
             DetailsContract.DetailsState.BindData -> {
@@ -54,6 +50,10 @@ class DetailsFragment : BaseFragment<DetailsContract.DetailsState, DetailsContra
             }
             else -> {}
         }
+    }
+
+    override fun initMVIObservers() {
+
     }
 
     override fun collectEffect(effect: DetailsContract.DetailsEffect) {

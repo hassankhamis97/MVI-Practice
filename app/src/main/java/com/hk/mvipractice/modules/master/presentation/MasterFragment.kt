@@ -45,8 +45,8 @@ class MasterFragment : BaseFragment<MasterContract.MasterState, MasterContract.M
         }
     }
 
-    override fun initObservers() {
-        super.initObservers()
+    override fun initMVIObservers() {
+//        super.initMVIObservers()
     }
 
     override fun collectState(state: MasterContract.MasterState) {

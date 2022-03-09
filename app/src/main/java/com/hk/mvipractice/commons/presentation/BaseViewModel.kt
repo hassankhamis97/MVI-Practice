@@ -1,5 +1,6 @@
 package com.hk.mvipractice.commons.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hk.mvipractice.contracts.BaseContract
@@ -48,6 +49,7 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
 
     fun setEvent(event: BaseContract.BaseEvent) {
         viewModelScope.launch {
+            Log.d("MVI_Practice", "setEvent subscriptionCount: ${_event.subscriptionCount.value}")
             _event.emit(event)
         }
     }
@@ -58,6 +60,7 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
 
     protected fun setState(builder: () -> BaseContract.BaseState) {
         viewModelScope.launch {
+            Log.d("MVI_Practice", "setState subscriptionCount: ${_state.subscriptionCount.value}")
             _state.emit(builder())
         }
     }
