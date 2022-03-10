@@ -15,14 +15,14 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
 
     private val initialState : BaseContract.BaseState by lazy { createInitialState() }
 
-    private val _state = MutableStateFlow<BaseContract.BaseState>(initialState)
+    private val _state = MutableStateFlow(initialState)
     val state get() = _state.asStateFlow()
 
 //    // Get Current State
 //    val currentState: BaseContract
 //        get() = state
 
-    private val _event = MutableSharedFlow<BaseContract.BaseEvent>()
+    private val _event = MutableSharedFlow<Event>()
     val event get() = _event.asSharedFlow()
 
     private val _effect = Channel<BaseContract.BaseEffect>()
@@ -47,7 +47,7 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
      * Set new Event
      */
 
-    fun setEvent(event: BaseContract.BaseEvent) {
+    fun setEvent(event: Event) {
         viewModelScope.launch {
             Log.d("MVI_Practice", "setEvent subscriptionCount: ${_event.subscriptionCount.value}")
             _event.emit(event)
