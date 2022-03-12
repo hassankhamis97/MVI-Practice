@@ -35,7 +35,6 @@ class MasterViewModel @Inject constructor(): BaseViewModel<MasterContract.Master
     }
 
     override fun createInitialState(): BaseContract.BaseState {
-//        return (HomeContract.HomeState.Super as BaseContract.BaseState).Idle
         return BaseContract.BaseState.Idle
     }
 }
