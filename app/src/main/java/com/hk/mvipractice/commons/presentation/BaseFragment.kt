@@ -52,7 +52,7 @@ abstract class BaseFragment<State: BaseContract.BaseState, Effect: BaseContract.
 
     private fun observeStates() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect {
                     if (isCallBaseStates) {
                         when (it) {
