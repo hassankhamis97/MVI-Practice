@@ -11,7 +11,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.hk.mvipractice.contracts.BaseContract
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlin.jvm.internal.Intrinsics
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredFunctions
 import kotlin.reflect.full.memberFunctions
@@ -24,14 +23,13 @@ import kotlin.reflect.full.memberFunctions
 abstract class BaseFragment<State: BaseContract.BaseState, Effect: BaseContract.BaseEffect, VM: BaseViewModel<out BaseContract.BaseEvent>>(@LayoutRes contentLayoutId: Int) :
     Fragment(contentLayoutId) {
 
-    private var isCallBaseStates = false
+    private var initiateBaseImpl = false
 
     abstract val viewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initMVIObservers()
-//        observeEffects()
         observeStates()
         observeEffects()
     }
@@ -45,16 +43,17 @@ abstract class BaseFragment<State: BaseContract.BaseState, Effect: BaseContract.
 
 
     open fun initMVIObservers() {
-        isCallBaseStates = true
+        initiateBaseImpl = true
         // repeat on life cycle
 
     }
 
     private fun observeStates() {
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                Log.d("MVI_Practice", "observeStates coroutineScope: $this and fragment ${this@BaseFragment}")
                 viewModel.state.collect {
-                    if (isCallBaseStates) {
+                    if (initiateBaseImpl) {
                         when (it) {
                             BaseContract.BaseState.Idle -> {
                                 Log.d("MVI_Practice", "State: Idle for ${this@BaseFragment}")
@@ -102,7 +101,7 @@ abstract class BaseFragment<State: BaseContract.BaseState, Effect: BaseContract.
     private fun observeEffects() {
         lifecycleScope.launchWhenCreated {
             viewModel.effect.collect {
-                if (isCallBaseStates) {
+                if (initiateBaseImpl) {
                     when (it) {
                         is BaseContract.BaseEffect.ErrorDialog -> {
                             Log.d("MVI_Practice", "Effect: ErrorDialog for ${this@BaseFragment}")
