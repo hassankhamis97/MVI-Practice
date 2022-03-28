@@ -49,6 +49,7 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
 
     fun setEvent(event: Event) {
         viewModelScope.launch {
+
             Log.d("MVI_Practice", "setEvent subscriptionCount: ${_event.subscriptionCount.value}")
             _event.emit(event)
         }
@@ -60,6 +61,7 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
 
     protected fun setState(builder: () -> BaseContract.BaseState) {
         viewModelScope.launch {
+            Log.d("MVI_Practice", "setState coroutineScope: $this")
             Log.d("MVI_Practice", "setState subscriptionCount: ${_state.subscriptionCount.value}")
             _state.emit(builder())
         }
@@ -73,7 +75,7 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
     /**
      * Handle each event
      */
-    open fun handleBaseEvent(event : BaseContract.BaseEvent) {
+    private fun handleBaseEvent(event : BaseContract.BaseEvent) {
         when (event) {
             BaseContract.BaseEvent.OnRetryDataClicked -> TODO()
             else -> {
