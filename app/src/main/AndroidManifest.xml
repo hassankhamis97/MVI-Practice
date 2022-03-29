@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MVIPractice">
         <activity
-            android:name=".modules.home.presentation.HomeActivity"
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
