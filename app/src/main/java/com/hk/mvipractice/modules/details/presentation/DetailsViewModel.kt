@@ -20,19 +20,13 @@ class DetailsViewModel @Inject constructor(): BaseViewModel<DetailsContract.Deta
 
         viewModelScope.launch {
             when(event) {
-//                DetailsContract.DetailsEffect.AddToCart -> {
-//                    setState { copy(state = BaseContract.BaseState.Loading) }
-//                    delay(1000)
-//                    setState { copy(state = MasterContract.MasterState.BindData) }
-//
-//                }
+
             }
         }
 
     }
 
     override fun createInitialState(): BaseContract.BaseState {
-//        return (HomeContract.HomeState.Super as BaseContract.BaseState).Idle
         return BaseContract.BaseState.Idle
     }
 }
