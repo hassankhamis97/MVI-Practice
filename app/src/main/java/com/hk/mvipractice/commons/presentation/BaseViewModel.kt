@@ -23,7 +23,7 @@ abstract class BaseViewModel<Event: BaseContract.BaseEvent>: ViewModel() {
 //        get() = state
 
     private val _event = MutableSharedFlow<Event>()
-    val event get() = _event.asSharedFlow()
+    private val event get() = _event.asSharedFlow()
 
     private val _effect = Channel<BaseContract.BaseEffect>()
     val effect get() = _effect.receiveAsFlow()
